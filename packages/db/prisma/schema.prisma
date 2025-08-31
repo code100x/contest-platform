@@ -22,6 +22,15 @@ enum Role {
   Admin
 }
 
+model OtpVerification {
+  id                String          @id @default(uuid())
+  email             String          @unique
+  otp               String
+  expiresAt         DateTime
+  attempts          Int             @default(0)
+  createdAt         DateTime        @default(now())
+}
+
 model Contest {
   id                            String       @id       @default(uuid())
   title                         String
