@@ -35,6 +35,7 @@ model Contest {
   id                            String       @id       @default(uuid())
   title                         String
   startTime                     DateTime
+  endTime                       DateTime
   leaderboard                   Leaderboard[]
   contestToChallengeMapping     ContestToChallengeMapping[]
 }
