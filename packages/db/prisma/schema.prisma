@@ -11,10 +11,10 @@ datasource db {
 model User {
   id                String      @id       @default(uuid())
   email             String      @unique
-  password          String
   role              Role
   leaderboard       Leaderboard[]
-  submissions       Submission[]
+  submissions       Submissions[]
+  ContestSubmission ContestSubmission[]
 }
 
 enum Role {
@@ -35,7 +35,7 @@ model ContestToChallengeMapping {
   contestId       String
   challengeId     String
   index           Int
-  submissions     Submission[]
+  ContestSubmission     ContestSubmission[]
   contest         Contest       @relation(fields: [contestId], references: [id])
   challenge       Challenge     @relation(fields: [challengeId], references: [id])
   @@unique([contestId, challengeId])
@@ -47,9 +47,10 @@ model Challenge {
   notionDocId       String
   maxPoints         Int
   contestToChallengeMapping     ContestToChallengeMapping[]
+  submissions       Submissions[]
 }
 
-model Submission {
+model ContestSubmission {
   id                            String       @id       @default(uuid())
   submission                    String
   contestToChallengeMappingId   String
@@ -57,6 +58,18 @@ model Submission {
   user                          User                        @relation(fields: [userId], references: [id])
   points                        Int
   contestToChallengeMapping     ContestToChallengeMapping   @relation(fields: [contestToChallengeMappingId], references: [id])
+  createdAt                     DateTime      @default(now())
+}
+
+
+model Submissions {
+  id                            String       @id       @default(uuid())
+  submission                    String
+  challengeId   String
+  userId                        String
+  user                          User                        @relation(fields: [userId], references: [id])
+  points                        Int
+  challenge                     Challenge   @relation(fields: [challengeId], references: [id])
   createdAt                     DateTime      @default(now())
 }
 
